@@ -1,4 +1,4 @@
-Package: easylife
+Package: day2day
 Title: Functions for day-to-day data analysis.
 Version: 0.1
 Author@R: person("Erick", "Chacon-Montalvan", email = "eral_th07@gmail.com",
