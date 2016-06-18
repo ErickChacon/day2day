@@ -12,6 +12,8 @@
 #' @return A character indicating the folder path.
 #' 
 #' @author Erick Albacharro Chacon-Montalvan
+#'
+#' @export
 get_path <- function(file = "doctoral-research.ecm") {
   full_path <- system(paste('find ~ -name', file, '2>/dev/null'), intern = TRUE)
   path <- gsub(paste0("." ,file, "$"), "", full_path)

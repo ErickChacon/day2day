@@ -13,6 +13,8 @@
 #' @return A character indicating the folder path.
 #' 
 #' @author Erick Albacharro Chacon-Montalvan
+#'
+#' @export
 db_summarize <- function(path_data, filename = "summary-databases.txt"){
   databases <- list.files(path_data,".RData$")
   write("------------------------------------------------", filename)
