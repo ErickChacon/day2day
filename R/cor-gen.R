@@ -47,11 +47,14 @@ corr_gen <- function(x, y) {
 #'
 #' @export
 corr <- function(data) {
-  metadata <- as.data.frame(expand.grid(1:ncol(data), 1:ncol(data)))
-  metadata$corr <- apply(metadata, 1,
+  metadata <- expand.grid(x = 1:ncol(data), y = 1:ncol(data))
+  metadata$corr <- NA
+  index <- metadata$y > metadata$x
+  metadata$corr[index] <- apply(subset(metadata, index), 1,
                          function(x) corr_gen(data[, x[1]], data[, x[2]]))
   corr <- matrix(metadata$corr, ncol(data), ncol(data))
-  # diag(corr) <- 1
+  corr[is.na(corr)] <- t(corr)[is.na(corr)]
+  diag(corr) <- 1
   rownames(corr) <- colnames(corr) <- names(data)
   return(corr)
 }
