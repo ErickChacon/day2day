@@ -18,7 +18,7 @@ test_assoc <- function(x, y) {
     return(pf(mo$fstatistic[1], mo$fstatistic[2], mo$fstatistic[3],
               lower.tail = FALSE))
   }
-} 
+}
 test_assoc_re <- function(x, y, z) {
   index <- !is.na(x) & !is.na(y) & !is.na(z)
   y <- y[index]
@@ -48,19 +48,19 @@ test_assoc_re <- function(x, y, z) {
     # return(pf(mo$fstatistic[1], mo$fstatistic[2], mo$fstatistic[3],
               # lower.tail = FALSE))
   }
-} 
+}
 #' @title title.
-#' 
+#'
 #' @description
-#' \code{function} description. 
-#' 
+#' \code{function} description.
+#'
 #' @details
 #' details.
-#' 
+#'
 #' @param par.
-#' 
+#'
 #' @return return.
-#' 
+#'
 #' @author Erick Albacharro Chacon-Montalvan
 #'
 #' @export

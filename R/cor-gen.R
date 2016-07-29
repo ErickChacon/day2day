@@ -30,15 +30,15 @@ corr_gen <- function(x, y) {
     # return(pf(mo$fstatistic[1], mo$fstatistic[2], mo$fstatistic[3],
     #           lower.tail = FALSE))
   }
-} 
+}
 #' @title title.
-#' 
+#'
 #' @description
-#' \code{function} description. 
-#' 
+#' \code{function} description.
+#'
 #' @details
 #' details.
-#' 
+#'
 #' @param par.
 #' 
 #' @return return.
