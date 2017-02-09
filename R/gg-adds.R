@@ -76,3 +76,43 @@ ggscale_seq <- function (by = 1) {
   fun <- function (x) seq(ceiling(min(x)), floor(max(x)), by = by)
   return(fun)
 }
+
+###########################################################################
+## Title: PLOT GAM EFFECTS MODEL
+## Desc: From http://stackoverflow.com/questions/19735149/is-it-possible-to-plot-the-smooth-components-of-a-gam-fit-with-ggplot2
+## Input: input
+## Output: output
+## Status: running
+## Author: Erick Albacharro Chacon-Montalvan
+## Date: 09 Feb 2017
+###########################################################################
+
+ggplot.model <- function(model, type = "conditional", res = FALSE,
+                         col.line = "#7fc97f", col.point = "#beaed4",
+                         size.line=1, size.point=1) {
+  require(visreg)
+  require(dplyr)
+  plotdata <- visreg(model, type = type, plot = FALSE)
+  if (is.data.frame(plotdata[[1]])) plotdata <- list(plotdata)
+  smooths <- ldply(plotdata, function(part)
+    data.frame(Variable = part$meta$x,
+             x=part$fit[[part$meta$x]],
+             smooth=part$fit$visregFit,
+             lower=part$fit$visregLwr,
+             upper=part$fit$visregUpr))
+  residuals <- ldply(plotdata, function(part)
+    data.frame(Variable = part$meta$x,
+               x=part$res[[part$meta$x]],
+               y=part$res$visregRes))
+  if (res)
+    ggplot(smooths, aes(x, smooth)) + geom_line(col=col.line, size=size.line) +
+      geom_line(aes(y=lower), linetype="dashed", col=col.line, size=size.line) +
+      geom_line(aes(y=upper), linetype="dashed", col=col.line, size=size.line) +
+      geom_point(data = residuals, aes(x, y), col=col.point, size=size.point) +
+      facet_grid(. ~ Variable, scales = "free_x")
+  else
+    ggplot(smooths, aes(x, smooth)) + geom_line(col=col.line, size=size.line) +
+      geom_line(aes(y=lower), linetype="dashed", col=col.line, size=size.line) +
+      geom_line(aes(y=upper), linetype="dashed", col=col.line, size=size.line) +
+      facet_grid(. ~ Variable, scales = "free_x")
+  }
