@@ -116,3 +116,25 @@ ggplot.model <- function(model, type = "conditional", res = FALSE,
       geom_line(aes(y=upper), linetype="dashed", col=col.line, size=size.line) +
       facet_grid(. ~ Variable, scales = "free_x")
   }
+
+#' @title Customized theme for ggplot.
+#'
+#' @description
+#' \code{ggtheme} creates a customized theme for ggplot.
+#'
+#' @details
+#' details.
+#'
+#' @param color
+#'
+#' @return theme for being used with ggplot objects.
+#'
+#' @author Erick A. Chacon-Montalvan
+#'
+#' @export
+ggtheme <- function (color = "#990000") {
+  out <- theme(
+    axis.title = element_text(face = "bold", colour = chicol, size = 8),
+    axis.text = element_text(size = 7),
+    plot.title = element_text(size = rel(1), hjust = 0.5))
+}
