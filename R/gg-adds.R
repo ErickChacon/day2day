@@ -134,7 +134,7 @@ ggplot.model <- function(model, type = "conditional", res = FALSE,
 #' @export
 ggtheme <- function (color = "#990000") {
   out <- theme(
-    axis.title = element_text(face = "bold", colour = chicol, size = 8),
+    axis.title = element_text(face = "bold", colour = color, size = 8),
     axis.text = element_text(size = 7),
     plot.title = element_text(size = rel(1), hjust = 0.5))
 }
