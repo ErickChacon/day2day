@@ -90,3 +90,42 @@ spi_week <- function(rain, period = 365 / 7, package = "gamlss", plot = FALSE) {
 
 return(subset(data, select = c(spi, mu, sigma, pzero)))
 }
+
+
+
+#' @title Identify floods and droughts based on SPI.
+#'
+#' @description
+#' \code{find_flood_drought} description.
+#'
+#' @details
+#' details.
+#'
+#' @param par.
+#'
+#' @return return.
+#'
+#' @author Erick A. Chacon-Montalvan
+#'
+#' @export
+find_flood_drought <- function (spi) {
+  # Convert spi to string to detect extreme events.
+  spi <- (spi > -1) + (spi > 0) + (spi > 1)
+  spi[is.na(spi)] <- 9
+  spichar <- spi %>% paste(collapse = "")
+  # Detect flood and drought.
+  flood_exp <- gregexpr("[2-3]*3+[2-3]*", spichar)
+  drought_exp <- gregexpr("[0-1]*0+[0-1]*", spichar)
+  flood <- function(n) strrep("8", n)
+  drought <- function(n) strrep("7", n)
+  regmatches(spichar, flood_exp) <-
+    Map(flood, lapply(regmatches(spichar, flood_exp), nchar))
+  regmatches(spichar, drought_exp) <-
+    Map(drought, lapply(regmatches(spichar, drought_exp), nchar))
+  # Convert to vector.
+  spichar <- substring(spichar, 1:nchar(spichar), 1:(nchar(spichar)))
+  spi <- as.numeric(spichar)
+  spi[spi == 9] <- NA
+  spi[!(spi %in% c(7:8, NA))] <- 0
+  return(spi)
+}
