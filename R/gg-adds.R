@@ -138,3 +138,55 @@ ggtheme <- function (color = "#990000") {
     axis.text = element_text(size = 7),
     plot.title = element_text(size = rel(1), hjust = 0.5))
 }
+
+
+StatEvents <- ggproto("StatEvents", Stat,
+  required_aes = c("x", "y"),
+  compute_group = function(data, scales, threshold = 0) {
+    transition <- data %>%
+      # dplyr::select(-event) %>%
+      dplyr::arrange(x) %>%
+      dplyr::mutate(
+        ini = c(abs(diff(y > threshold)), NA), ini = cumsum_na(ini) * ini,
+        end = c(NA, abs(diff(y > threshold))), end = cumsum_na(end) * end) %>%
+      tidyr::gather(ini_end, change_id,  ini:end) %>%
+      dplyr::filter(change_id > 0) %>%
+      dplyr::group_by(change_id) %>%
+      do(data.frame(x = predict(lm(x ~ y, .), data.frame(y = threshold)))) %>%
+      dplyr::mutate(y = threshold) %>% dplyr::ungroup() %>% dplyr::select(- change_id)
+
+    data$y[data$event == 0] <- NA
+    # data$y[data$y < threshold] <- NA
+    data <- data.frame(x = c(data$x, transition$x),
+                       y = c(data$y, transition$y),
+                       ymin = threshold,
+                       ymax = c(data$y, transition$y))
+  }
+)
+
+#' @title Extreme events.
+#'
+#' @description
+#' \code{stat_events} computes a data frame to adequatly draw areas
+#' corresponding to extreme events in a time series.
+#'
+#' @details
+#' details.
+#'
+#' @param mapping Aesthetic mapping created by \code{aes} or \code{aes}.
+#' @param threshold Threshold to plot the extreme events.
+#'
+#' @author Erick A. Chacon-Montalvan
+#'
+#' @export
+#' @param n Number of points used for interpolation.
+stat_events <- function(mapping = NULL, data = NULL, geom = "ribbon",
+                        position = "identity", na.rm = FALSE, show.legend = NA,
+                        inherit.aes = TRUE, ...) {
+  layer(
+    stat = StatEvents, data = data, mapping = mapping, geom = geom,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
+
