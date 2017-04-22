@@ -8,3 +8,4 @@ Description: Functions that can be useful in the day-to-day data analysis. It
     inside folder and so on.
 License: GPL-3
 RoxygenNote: 5.0.1
+Depends: R (>= 3.0.0), Hmisc, grid, lattice, survival, splines, Formula
