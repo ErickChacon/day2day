@@ -29,7 +29,7 @@ post_jekyll <- function (filename,
                       content)
   filename <- file.path(path_jekyll, filename)
   write(new_content, file = filename)
-  cat(paste(filename, "successfully exported to jekyll."))
+  cat(paste(filename, "successfully exported to jekyll.\n"))
 }
 
 
