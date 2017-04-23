@@ -127,5 +127,6 @@ find_flood_drought <- function (spi) {
   spi <- as.numeric(spichar)
   spi[spi == 9] <- NA
   spi[!(spi %in% c(7:8, NA))] <- 0
+  spi <- factor(spi, c(0, 7, 8), c("normal", "drought", "flood"))
   return(spi)
 }
