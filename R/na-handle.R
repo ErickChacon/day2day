@@ -6,8 +6,8 @@
 #' @details
 #' details.
 #'
-#' @param x
-#' @param ...
+#' @param x vector
+#' @param ... Parameters passed to \code{sum}
 #'
 #' @author Erick A. Chacon-Montalvan
 #'
@@ -25,8 +25,8 @@ sum_na <- function (x, ...) {
 #' @details
 #' details.
 #'
-#' @param x
-#' @param ...
+#' @param x vector
+#' @param ... Parameters passed to \code{mean}
 #'
 #' @author Erick A. Chacon-Montalvan
 #'
