@@ -140,7 +140,7 @@ ggtheme <- function (color = "#990000") {
 }
 
 
-StatEvents <- ggproto("StatEvents", Stat,
+StatEvents <- ggplot2::ggproto("StatEvents", Stat,
   required_aes = c("x", "y"),
   compute_group = function(data, scales, threshold = 0) {
     transition <- data %>%
