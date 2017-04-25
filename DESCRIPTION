@@ -1,11 +1,17 @@
 Package: day2day
+Type: Package
 Title: Functions for day-to-day data analysis.
 Version: 0.1
+Date: 2017-04-25
 Author@R: person("Erick", "Chacon-Montalvan", email = "eral_th07@gmail.com",
     role = c("aut", "cre"))
+Maintainer: Erick Chacon <eral.th07@email.com>
 Description: Functions that can be useful in the day-to-day data analysis. It
     comprehends functions to find paths for projects, make summaries of databases
     inside folder and so on.
 License: GPL-3
+Imports:
+    Rcpp (>= 0.12.10)
+LinkingTo: Rcpp
 RoxygenNote: 5.0.1
 Depends: R (>= 3.0.0)

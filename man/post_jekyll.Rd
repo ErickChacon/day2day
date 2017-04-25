@@ -5,7 +5,7 @@
 \title{Prepare md post to jekyll.}
 \usage{
 post_jekyll(filename,
-  path_jekyll = "/home/chaconmo/Documents/Repositories/erickchacon/_posts/",
+  path_jekyll = "/home/chaconmo/Documents/Repositories/erickchacon/_posts",
   fig_jekyll = "{{site.baseurl}}/assets/images/")
 }
 \arguments{
