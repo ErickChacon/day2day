@@ -1,24 +1,36 @@
 
-###########################################################################
-## Title: Compute Standardized Precipitation Index
-## Desc: Function to compute the spi index with gamlss models.
-## It can also with rain series containing NA, 0 or only non-zero values.
-## Input: vector of weekly rain (running mean computed by the user).
-## Output: vector of weekly spi
-## Status: working, workaround for gamlss package
-## Author: Erick Albacharro Chacon-Montalvan
-## Date: 12 Apr 2017
-###########################################################################
-
-spi_week <- function(rain, period = 365 / 7, package = "gamlss", plot = FALSE) {
+#' @title Compute the Standardized Precipitation Index.
+#'
+#' @description
+#' \code{spi_week} computes the weekly spi index with gamlss models.
+#' It can also with work with precipitation series containing NA, 0 or
+#' only non-zero values.
+#'
+#' @details
+#' details.
+#'
+#' @param rain Precipitation level.
+#' @param tscale Time-scale to compute the SPI in week units.
+#' @param period Period (e.g. 53 weeks) defined to model the seasonal effect.
+#' @param package Package to use. \code{gamlss} for backfitting and \code{bamlss} for baysian gamlss models.
+#'
+#' @return dataframe consisting of spi, mu, sigma and pzero.
+#'
+#' @author Erick A. Chacon-Montalvan
+#'
+#' @export
+spi_week <- function(rain, tscale = 1, period = 365 / 7, package = "gamlss", plot = FALSE) {
 
   require(mgcv)
+
+  # Compute moving average of rain based on time-scale.
+  rain <- runmean(rain, tscale)
 
   # Create dataframe.
   data <- data.frame(rain, weeks = 1:length(rain))
   data <- transform(data, no_rain = (rain == 0) * 1, rain_level = rain)
   data <- within(data, rain_level[rain == 0] <- NA)
-  data <- transform(data, weeks2 = 1 + weeks %% (365 / 7)) # for seasonal trend
+  data <- transform(data, weeks2 = 1 + weeks %% period) # for seasonal trend
 
   # Modelling probability of no rain.
   gam0 <- gam(no_rain ~ s(weeks2, bs = "cc"), binomial("logit"), data)
@@ -88,9 +100,8 @@ spi_week <- function(rain, period = 365 / 7, package = "gamlss", plot = FALSE) {
     par(opar)
   }
 
-return(subset(data, select = c(spi, mu, sigma, pzero)))
+  return(subset(data, select = c(spi, mu, sigma, pzero)))
 }
-
 
 
 #' @title Identify floods and droughts based on SPI.
