@@ -30,7 +30,7 @@ spi_week <- function(rain, tscale = 1, period = 365 / 7, package = "gamlss", plo
   data <- data.frame(rain, weeks = 1:length(rain))
   data <- transform(data, no_rain = (rain == 0) * 1, rain_level = rain)
   data <- within(data, rain_level[rain == 0] <- NA)
-  data <- transform(data, weeks2 = 1 + weeks %% period) # for seasonal trend
+  data <- transform(data, weeks2 = weeks %% period) # for seasonal trend
 
   # Modelling probability of no rain.
   gam0 <- gam(no_rain ~ s(weeks2, bs = "cc"), binomial("logit"), data)
