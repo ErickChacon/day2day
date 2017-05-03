@@ -10,10 +10,16 @@
 #' @param x numeric vector to be converted to factor.
 #'        breaks numeric vector of breaks to be included.
 #'        condition condition to be applied to the high threshold of interval.
+#' @param breaks break point to divide the categories.
+#' @param condition condition for each break point in order to define open or
+#' close intervals.
 #'
 #' @return The new factor is returned.
 #'
 #' @author Erick A. Chacon-Montalvan
+#'
+#' @examples
+#' cut_ext(1:10, breaks = c(3, 6), condition = c('<', '<='))
 #'
 #' @export
 cut_ext <- function (x, breaks, condition = NULL) {

@@ -21,4 +21,3 @@ details.
 \author{
 Erick Albacharro Chacon-Montalvan
 }
-

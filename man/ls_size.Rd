@@ -18,4 +18,3 @@ list of objects sorted by memory usage.
 \author{
 Erick A. Chacon-Montalvan
 }
-

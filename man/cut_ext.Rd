@@ -10,6 +10,11 @@ cut_ext(x, breaks, condition = NULL)
 \item{x}{numeric vector to be converted to factor.
 breaks numeric vector of breaks to be included.
 condition condition to be applied to the high threshold of interval.}
+
+\item{breaks}{break point to divide the categories.}
+
+\item{condition}{condition for each break point in order to define open or
+close intervals.}
 }
 \value{
 The new factor is returned.
@@ -21,7 +26,10 @@ condition applied to the high threshold of each interval.
 \details{
 details.
 }
+\examples{
+cut_ext(1:10, breaks = c(3, 6), condition = c('<', '<='))
+
+}
 \author{
 Erick A. Chacon-Montalvan
 }
-

@@ -23,4 +23,3 @@ details.
 \author{
 Erick A. Chacon-Montalvan
 }
-

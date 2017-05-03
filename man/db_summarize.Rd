@@ -23,4 +23,3 @@ When the filename is not specified, \code{db_summary} will create the file
 \author{
 Erick Albacharro Chacon-Montalvan
 }
-

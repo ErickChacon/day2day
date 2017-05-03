@@ -22,4 +22,3 @@ file "doctoral-research.ecm".
 \author{
 Erick Albacharro Chacon-Montalvan
 }
-

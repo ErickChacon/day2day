@@ -20,4 +20,3 @@ wrapped text
 \author{
 Erick A. Chacon-Montalvan
 }
-
