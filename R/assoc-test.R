@@ -50,6 +50,26 @@ test_assoc_re <- function(x, y, z) {
   }
 }
 
+gen_assoc <- function(x, y) {
+  cl <- c(class(x), class(y))
+  if (cl[1] == "factor") {
+    if (cl[2] == "factor") {
+      tab <- table(x, y)
+      return(vcd::assocstats(tab)$cramer)
+    } else {
+      return(summary(lm(y ~ x))$r.squared)
+    }
+  } else if (cl[2] != "factor") {
+    mo1 <- summary(gam(y ~ s(x)))$dev.expl
+    mo2 <- summary(gam(x ~ s(y)))$dev.expl
+    return((mo1 + mo2) / 2)
+  } else {
+    mo <- summary(lm( x ~ y))
+    return(summary(lm(x ~ y))$r.squared)
+  }
+}
+
+
 #' @title title.
 #'
 #' @description
@@ -67,20 +87,20 @@ test_assoc_re <- function(x, y, z) {
 #' @export
 assoc <- function(data, re = NULL) {
   metadata <- expand.grid(x = 1:ncol(data), y = 1:ncol(data))
-  metadata$pvalue <- NA
+  metadata$assoc_ind <- NA
   index <- metadata$y > metadata$x
   if (is.null(re)) {
-    metadata$pvalue[index] <-
+    metadata$assoc_ind[index] <-
       apply(subset(metadata, index), 1,
-            function(x) test_assoc(data[, x[1]], data[, x[2]]))
+            function(x) gen_assoc(data[, x[1]], data[, x[2]]))
   } else {
-    metadata$pvalue[index] <-
+    metadata$assoc_ind[index] <-
       apply(subset(metadata, index), 1,
             function(x) test_assoc_re(data[, x[1]], data[, x[2]], re))
   }
-  pvalue <- 1 - matrix(metadata$pvalue, ncol(data), ncol(data))
-  pvalue[is.na(pvalue)] <- t(pvalue)[is.na(pvalue)]
-  diag(pvalue) <- 1
-  rownames(pvalue) <- colnames(pvalue) <- names(data)
-  return(pvalue)
+  assoc_ind <- matrix(metadata$assoc_ind, ncol(data), ncol(data))
+  assoc_ind[is.na(assoc_ind)] <- t(assoc_ind)[is.na(assoc_ind)]
+  diag(assoc_ind) <- 1
+  rownames(assoc_ind) <- colnames(assoc_ind) <- names(data)
+  return(assoc_ind)
 }
