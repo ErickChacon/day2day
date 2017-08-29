@@ -1,17 +1,17 @@
 #' @title Summarize the databases inside a folder.
-#' 
+#'
 #' @description
 #' \code{db_summary} write the summary of databases, founded inside a provided
 #' folder, into a file.
-#' 
+#'
 #' @details
 #' When the filename is not specified, \code{db_summary} will create the file
 #' "summary-databases.txt".
-#' 
+#'
 #' @param file file name to look for.
-#' 
+#'
 #' @return A character indicating the folder path.
-#' 
+#'
 #' @author Erick Albacharro Chacon-Montalvan
 #'
 #' @export
