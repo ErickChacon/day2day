@@ -11,7 +11,7 @@ Description: Functions that can be useful in the day-to-day data analysis. It
     inside folder and so on.
 License: GPL-3
 Imports:
-    Rcpp (>= 0.12.10)
+    Rcpp (>= 0.12.10),
     magrittr
 LinkingTo: Rcpp
 RoxygenNote: 6.0.1
