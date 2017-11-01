@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // runmean
 NumericVector runmean(NumericVector a, int width);
-RcppExport SEXP day2day_runmean(SEXP aSEXP, SEXP widthSEXP) {
+RcppExport SEXP _day2day_runmean(SEXP aSEXP, SEXP widthSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -16,4 +16,14 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(runmean(a, width));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_day2day_runmean", (DL_FUNC) &_day2day_runmean, 2},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_day2day(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }

@@ -22,6 +22,6 @@
 #'
 #' @export
 runmean <- function(a, width) {
-    .Call('day2day_runmean', PACKAGE = 'day2day', a, width)
+    .Call('_day2day_runmean', PACKAGE = 'day2day', a, width)
 }
 
