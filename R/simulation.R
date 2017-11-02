@@ -53,8 +53,6 @@ sim_model <- function (formula = list(mean ~ 1 + 2 * x1, sd ~ 1),
   return(data)
 }
 
-
-
 exp_cor <- function (dis, phi) {
   exp(-dis/phi)
 }
@@ -101,4 +99,3 @@ gp <- function (s1, s2, cov.model = NULL, cov.params = NULL) {
   right <- chol(varcov)
   output <- as.numeric(crossprod(right, rnorm(n)))
 }
-
