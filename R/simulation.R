@@ -31,8 +31,8 @@
 #' @export
 #'
 
-sim_model <- function (formula = list(mean ~ 1 + 2 * x1, sd ~ 1),
-                       generator = rnorm, n = 1000, seed = NULL) {
+sim_model <- function (formula = list(mean ~ 1 + 2 * x1, sd ~ 1), generator = rnorm,
+                       n = 1000, init_data = NULL, seed = NULL) {
 
   if (!is.null(seed))
     set.seed(seed)
@@ -42,13 +42,72 @@ sim_model <- function (formula = list(mean ~ 1 + 2 * x1, sd ~ 1),
     purrr::reduce(c) %>% unique()
   p <- length(predictors)
 
-  data <- matrix(rnorm(n * p), nrow = n) %>%
-    tibble::as_tibble() %>%
-    setNames(predictors)
+  init_pred <- names(init_data)
+  pred2sim <- setdiff(predictors, init_pred)
+  p2 <- length(pred2sim)
 
-  data[params] <- purrr::map(formula, ~ .[[3]]) %>%
-    purrr::map(~ eval(., data))
-  data$y <- do.call(generator, c(n = n, data[params]))
+  if (p2 > 0) {
+    data <- matrix(rnorm(n * p2), nrow = n) %>%
+      tibble::as_tibble() %>%
+      setNames(pred2sim)
+    init_data <- dplyr::bind_cols(init_data, data)
+  }
 
-  return(data)
+
+  init_data[params] <- purrr::map(formula, ~ .[[3]]) %>%
+    purrr::map(~ eval(., init_data))
+
+  init_data$y <- do.call(generator, c(n = n, init_data[params]))
+
+  return(init_data)
+}
+
+exp_cor <- function (dis, phi) {
+  exp(-dis/phi)
+}
+exp_cov <- function (dis, phi, sigma2) {
+  sigma2 * exp(-dis/phi)
+}
+
+#' @title Simulate a Gaussian process
+#'
+#' @description
+#' \code{gp} Simulate a spatial Gaussian process given a certain covariance function.
+#'
+#' @details
+#' details.
+#'
+#' @param s1 First coordinate
+#'
+#' @param s2 Second coordinate
+#'
+#' @param cov.model A character or function indicating the covariance function that
+#' Should be used to compute the variance-covariance matrix
+#'
+#' @param cov.params A list of the parameters required by the \code{cov.model} function.
+#'
+#' @return A vector of the realization of the Gaussian Process
+#'
+#' @author Erick A. Chacon-Montalvan
+#'
+#' @examples
+#' # Generate coordinates
+#' N <- 1000
+#' s1 <- 2 * runif(N)
+#' s2 <- 2 * runif(N)
+#' # Simulate and plot the realization of a Gaussian process
+#' y <- gp(s1, s2, "exp_cov", list(phi = 0.05, sigma2 = 1))
+#' plot(s1, s2, cex = y)
+#' # Plot with ggplot
+#' # ggplot(data.frame(s1, s2, y), aes(s1, s2, col = y)) +
+#' #  geom_point(size = 3)
+#'
+#' @export
+gp <- function (s1, s2, cov.model = NULL, cov.params = NULL) {
+  coords <- cbind(s1, s2)
+  n <- nrow(coords)
+  distance <- as.matrix(dist(coords))
+  varcov <- do.call(cov.model, c(list(dis = distance), cov.params))
+  right <- chol(varcov)
+  output <- as.numeric(crossprod(right, rnorm(n)))
 }
