@@ -5,7 +5,7 @@
 \title{Simulate databases based in models}
 \usage{
 sim_model(formula = list(mean ~ 1 + 2 * x1, sd ~ 1), generator = rnorm,
-  n = 1000, seed = NULL)
+  n = 1000, init_data = NULL, seed = NULL)
 }
 \arguments{
 \item{formula}{List of the parameters, indicating how they should be computed.
