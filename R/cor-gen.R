@@ -40,9 +40,9 @@ corr_gen <- function(x, y) {
 #' details.
 #'
 #' @param par.
-#' 
+#'
 #' @return return.
-#' 
+#'
 #' @author Erick Albacharro Chacon-Montalvan
 #'
 #' @export
