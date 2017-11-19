@@ -2,12 +2,12 @@
 % Please edit documentation in R/get-path.R
 \name{get_path}
 \alias{get_path}
-\title{Get the folder path containing file.}
+\title{Get the Folder Path Containing File}
 \usage{
-get_path(file = "doctoral-research.ecm")
+get_path(file = "repos.ecm")
 }
 \arguments{
-\item{file}{file name to look for.}
+\item{file}{File name to look for.}
 }
 \value{
 A character indicating the folder path.
