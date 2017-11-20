@@ -16,6 +16,8 @@ that it included the coefficients and link function explicitly.}
 
 \item{n}{Number of observations to be simulated}
 
+\item{init_data}{Initial data including some variables to not been simulated.}
+
 \item{seed}{Seed to be defined with function \code{set.seed} to obtain reproducible
 results}
 

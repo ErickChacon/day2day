@@ -7,7 +7,9 @@
 db_summarize(path_data, filename = "summary-databases.txt")
 }
 \arguments{
-\item{file}{file name to look for.}
+\item{path_data}{The path where to look for .Rdata files.}
+
+\item{filename}{File name where to write the summary.}
 }
 \value{
 A character indicating the folder path.

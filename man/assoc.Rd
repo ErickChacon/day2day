@@ -2,21 +2,25 @@
 % Please edit documentation in R/assoc-test.R
 \name{assoc}
 \alias{assoc}
-\title{title.}
+\title{Matrix of General Association}
 \usage{
 assoc(data, re = NULL)
 }
 \arguments{
-\item{par.}{}
+\item{data}{Data frame with covariates}
+
+\item{re}{Logical values, indicating if random effects should be included or not.}
 }
 \value{
-return.
+A matrix of the pairwise association.
 }
 \description{
-\code{function} description.
+\code{assoc} computes a matrix of general association between categorical and
+quantitative variables.
 }
 \details{
-details.
+Given a \code{data.frame}, it will compute a matrix of association between all the
+variables.
 }
 \author{
 Erick Albacharro Chacon-Montalvan

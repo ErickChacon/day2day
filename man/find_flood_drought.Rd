@@ -7,16 +7,18 @@
 find_flood_drought(spi)
 }
 \arguments{
-\item{par.}{}
+\item{spi}{A vector series of standardized precipitation values.}
 }
 \value{
 return.
 }
 \description{
-\code{find_flood_drought} description.
+\code{find_flood_drought} identifies floods and droughts for a vector series of
+standardized precipitation values.
 }
 \details{
-details.
+Floods (droughts) are identified by a subset of negative values where at least one value
+exceeds -1 (1).
 }
 \author{
 Erick A. Chacon-Montalvan

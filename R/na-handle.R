@@ -39,12 +39,14 @@ mean_na <- function (x, ...) {
 #' @title Cumsum vector with NA values.
 #'
 #' @description
-#' \code{cumsum_na} Cumsum vector with NA values.
+#' \code{cumsum_na} Cumulative sum for vectors with NA values.
 #'
 #' @details
-#' details.
+#' When missing values are present, \code{cumsum_na} replace missing values for 0 and
+#' compute the usual \code{cumsum}.
 #'
-#' @param x
+#' @param x The vector for which the cumulative sum is desired.
+#' @param ... Additional arguments for the \code{cumsum} function.
 #'
 #' @author Erick A. Chacon-Montalvan
 #'

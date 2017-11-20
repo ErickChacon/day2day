@@ -15,6 +15,8 @@ spi_week(rain, tscale = 1, period = 365/7, package = "gamlss",
 \item{period}{Period (e.g. 53 weeks) defined to model the seasonal effect.}
 
 \item{package}{Package to use. \code{gamlss} for backfitting and \code{bamlss} for baysian gamlss models.}
+
+\item{plot}{Logical value indicating if a plot should be draw or not.}
 }
 \value{
 dataframe consisting of spi, mu, sigma and pzero.

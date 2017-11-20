@@ -13,6 +13,8 @@
 #'
 #' @author Erick A. Chacon-Montalvan
 #'
+#' @importFrom stats ecdf
+#'
 #' @export
 ecdf_val <- function (x) {
   ecdff <- ecdf(x)

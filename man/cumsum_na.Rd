@@ -7,13 +7,16 @@
 cumsum_na(x, ...)
 }
 \arguments{
-\item{x}{}
+\item{x}{The vector for which the cumulative sum is desired.}
+
+\item{...}{Additional arguments for the \code{cumsum} function.}
 }
 \description{
-\code{cumsum_na} Cumsum vector with NA values.
+\code{cumsum_na} Cumulative sum for vectors with NA values.
 }
 \details{
-details.
+When missing values are present, \code{cumsum_na} replace missing values for 0 and
+compute the usual \code{cumsum}.
 }
 \author{
 Erick A. Chacon-Montalvan

@@ -9,6 +9,8 @@
 #'
 #' @author Erick A. Chacon-Montalvan
 #'
+#' @importFrom utils object.size
+#'
 #' @export
 
 ls_size <- function (units = "MB") {

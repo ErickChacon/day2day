@@ -7,7 +7,11 @@
 units_tx(vec, unit = "weeks", singular = "week")
 }
 \arguments{
-\item{par.}{}
+\item{vec}{Vector of values.}
+
+\item{unit}{Name of unit in plural}
+
+\item{singular}{Name of the unit in singular.}
 }
 \value{
 return.

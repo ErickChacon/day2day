@@ -6,7 +6,9 @@
 #' @details
 #' details.
 #'
-#' @param par.
+#' @param vec Vector of values.
+#' @param unit Name of unit in plural
+#' @param singular Name of the unit in singular.
 #'
 #' @return return.
 #'

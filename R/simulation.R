@@ -13,8 +13,13 @@
 #'
 #' @param n Number of observations to be simulated
 #'
+#' @param init_data Initial data including some variables to not been simulated.
+#'
 #' @param seed Seed to be defined with function \code{set.seed} to obtain reproducible
 #' results
+#'
+#' @param extent Spatial extent for the simulation of coordinates when a spatial effect
+#' is included.
 #'
 #' @return a \code{tibble} containing the simulated predictors, parameters and response
 #' variable
@@ -28,8 +33,11 @@
 #')
 #'data <- sim_model(f, rnorm, 100)
 #'
-#' @export
+#' @importFrom purrr map map_chr reduce
+#' @importFrom dplyr bind_cols
+#' @importFrom tibble as_tibble
 #'
+#' @export
 
 sim_model <- function (formula = list(mean ~ 1 + 2 * x1, sd ~ 1), generator = rnorm,
                        n = 1000, init_data = NULL, seed = NULL, extent = 1) {
@@ -112,6 +120,8 @@ exp_cov <- function (dis, phi, sigma2) {
 #' # ggplot(data.frame(s1, s2, y), aes(s1, s2, col = y)) +
 #' #  geom_point(size = 3)
 #'
+#' @importFrom stats dist rnorm
+#'
 #' @export
 gp <- function (s1, s2, cov.model = NULL, cov.params = NULL) {
   coords <- cbind(s1, s2)
@@ -139,7 +149,11 @@ gp <- function (s1, s2, cov.model = NULL, cov.params = NULL) {
 #' @param cov.model A character or function indicating the covariance function that
 #' Should be used to compute the variance-covariance matrix
 #'
-#' @param cov.params A list of the parameters required by the \code{cov.model} function.
+#' @param variance A qxq matrix of non-spatial covariance.
+#' @param nugget A qxq diagonal matrix of non-spatial noise.
+#' @param phi A q-length vector of decay parameters.
+#' @param kappa A q-length vector of kappa parameters if Matern spatial correlation
+#' function is used.
 #'
 #' @return A vector of the realization of the Gaussian Process
 #'
@@ -156,6 +170,8 @@ gp <- function (s1, s2, cov.model = NULL, cov.params = NULL) {
 #' # Plot with ggplot
 #' # ggplot(data.frame(s1, s2, y), aes(s1, s2, col = y)) +
 #' #  geom_point(size = 3)
+#'
+#' @importFrom spBayes mkSpCov
 #'
 #' @export
 
@@ -179,7 +195,7 @@ mgp <- function (s1, s2, cov.model = NULL, variance = NULL, nugget = NULL, phi =
 }
 
 
-#' @title Multivariate Fixed Effect .
+#' @title Multivariate Fixed Effect
 #'
 #' @description
 #' \code{mfe} compute the multivariate fixed effect. Generally used with
@@ -220,6 +236,8 @@ mfe <- function (x, beta) {
 #'
 #' @param n Number of observations to be simulated
 #'
+#' @param init_data Initial data including some variables to not been simulated.
+#'
 #' @param seed Seed to be defined with function \code{set.seed} to obtain reproducible
 #' results
 #'
@@ -237,6 +255,11 @@ mfe <- function (x, beta) {
 #'  sd ~ exp(x1)
 #')
 #'data <- sim_model(f, rnorm, 100)
+#'
+#' @importFrom purrr map map_chr reduce
+#' @importFrom dplyr bind_cols mutate select left_join
+#' @importFrom tibble as_tibble
+#' @importFrom tidyr gather spread
 #'
 #' @export
 #'
@@ -290,8 +313,9 @@ msim_model <- function (formula, generator = rnorm, n = 100, init_data = NULL,
   params_ls$y <- do.call(generator, c(n = nq, params_ls[params]))
   params_ls$number <- rep(1:q, each = n)
   params_ls$id <- rep(1:n, q)
+  # varname <- value <- number <- id <- NULL
   params_ls <- params_ls %>%
-    tidyr::gather(varname, value, - number, - id) %>%
+    tidyr::gather("varname", "value", - number, - id) %>%
     dplyr::mutate(varname = paste0(varname, number)) %>%
     dplyr::select(- number) %>%
     tidyr::spread(varname, value)

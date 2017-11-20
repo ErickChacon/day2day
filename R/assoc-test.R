@@ -29,8 +29,8 @@ test_assoc_re <- function(x, y, z) {
     if (cl[2] == "factor") {
       return(chisq.test(x, y)$p.value)
     } else {
-      lmer1 <- lmer(y ~ (1 | z), REML = F)
-      lmer2 <- lmer(y ~ x + (1 | z), REML = F)
+      lmer1 <- lme4::lmer(y ~ (1 | z), REML = F)
+      lmer2 <- lme4::lmer(y ~ x + (1 | z), REML = F)
       return(anova(lmer1, lmer2)$"Pr(>Chisq)"[2])
       # mo <- summary(lm( y ~ x))
       # return(pf(mo$fstatistic[1], mo$fstatistic[2], mo$fstatistic[3],
@@ -70,19 +70,26 @@ gen_assoc <- function(x, y) {
 }
 
 
-#' @title title.
+#' @title Matrix of General Association
 #'
 #' @description
-#' \code{function} description.
+#' \code{assoc} computes a matrix of general association between categorical and
+#' quantitative variables.
 #'
 #' @details
-#' details.
+#' Given a \code{data.frame}, it will compute a matrix of association between all the
+#' variables.
 #'
-#' @param par.
+#' @param data Data frame with covariates
+#' @param re Logical values, indicating if random effects should be included or not.
 #'
-#' @return return.
+#' @return A matrix of the pairwise association.
 #'
 #' @author Erick Albacharro Chacon-Montalvan
+#'
+#' @importFrom vcd assocstats
+#' @importFrom stats lm
+#' @importFrom lme4 lmer
 #'
 #' @export
 assoc <- function(data, re = NULL) {

@@ -13,15 +13,21 @@
 #' @param tscale Time-scale to compute the SPI in week units.
 #' @param period Period (e.g. 53 weeks) defined to model the seasonal effect.
 #' @param package Package to use. \code{gamlss} for backfitting and \code{bamlss} for baysian gamlss models.
+#' @param plot Logical value indicating if a plot should be draw or not.
 #'
 #' @return dataframe consisting of spi, mu, sigma and pzero.
 #'
 #' @author Erick A. Chacon-Montalvan
 #'
+#' @importFrom mgcv gam predict.gam
+#' @importFrom gamlss pbc gamlss
+#' @importFrom utils getFromNamespace
+#' @importFrom graphics par points lines
+#'
 #' @export
 spi_week <- function(rain, tscale = 1, period = 365 / 7, package = "gamlss", plot = FALSE) {
 
-  require(mgcv)
+  # require(mgcv)
 
   # Compute moving average of rain based on time-scale.
   rain <- runmean(rain, tscale)
@@ -33,18 +39,19 @@ spi_week <- function(rain, tscale = 1, period = 365 / 7, package = "gamlss", plo
   data <- transform(data, weeks2 = weeks %% period) # for seasonal trend
 
   # Modelling probability of no rain.
-  gam0 <- gam(no_rain ~ s(weeks2, bs = "cc"), binomial("logit"), data)
-  data$pzero <- predict(gam0, data, type = "response")
+  gam0 <- mgcv::gam(no_rain ~ s(weeks2, bs = "cc"), binomial("logit"), data)
+  data$pzero <- mgcv::predict.gam(gam0, data, type = "response")
 
   if (package == "gamlss") {
-    require(gamlss)
-    form_mu <- rain_level ~ pbc(weeks2)
-    form_sg <- ~ pbc(weeks2)
+    # require(gamlss)
+    predict.gamlss <- getFromNamespace("predict.gamlss", "gamlss")
+    form_mu <- rain_level ~ gamlss::pbc(weeks2)
+    form_sg <- ~ gamlss::pbc(weeks2)
     data0 <<- na.omit(data)
-    lss <- gamlss(form_mu, sigma.formula = form_sg, data = data0, family = GA,
+    lss <- gamlss::gamlss(form_mu, sigma.formula = form_sg, data = data0, family = GA,
                   trace = FALSE)
-    mu <- predict(lss, what = "mu", newdata = data, type = "response")
-    sigma <- predict(lss, what = "sigma", newdata = data, type = "response")
+    mu <- predict.gamlss(lss, what = "mu", newdata = data, type = "response")
+    sigma <- predict.gamlss(lss, what = "sigma", newdata = data, type = "response")
     data$mu <- mu
     data$sigma <- 1 / sigma ^ 2
     # Notes:
@@ -52,25 +59,25 @@ spi_week <- function(rain, tscale = 1, period = 365 / 7, package = "gamlss", plo
     # 2) stepGAIC only works if form_mu and form_sg exits in the global env.
     # Solution: use <<- instead of <- for global assignment.
   } else {
-    require(bamlss)
-    # Modelling meanrain to select harmonic terms.
-    lm0 <- lm(paste0("rain_level ~ 1", terms), data)
-    lm1 <- step(lm0, trace = 0)
-    # lm1 <- step(lm0, trace = 0, k = log(nrow(data)))
-
-    # Distributional model for rain_level.
-    # form_lss <- list(update(formula(lm1), rain_level ~ .),
-    #                  update(formula(lm1), sigma ~ .))
-    form0 <- as.character(formula(lm1))
-    form0 <- as.formula(paste(form0[2], form0[1], form0[3]))
-    # form0 <- formula(lm1)
-    form_lss <- list(update(form0, rain_level ~ .),
-                     update(form0, sigma ~ .))
-
-    # form_lss <- list(rain_level ~ 1,
-    #                  sigma ~ 1)
-    lss <- bamlss(form_lss, family = "gamma", data = data)
-    data[c("mu", "sigma")] <- predict(lss, data, type = "parameter")
+    # # require(bamlss)
+    # # Modelling meanrain to select harmonic terms.
+    # lm0 <- lm(paste0("rain_level ~ 1", terms), data)
+    # lm1 <- step(lm0, trace = 0)
+    # # lm1 <- step(lm0, trace = 0, k = log(nrow(data)))
+    #
+    # # Distributional model for rain_level.
+    # # form_lss <- list(update(formula(lm1), rain_level ~ .),
+    # #                  update(formula(lm1), sigma ~ .))
+    # form0 <- as.character(formula(lm1))
+    # form0 <- as.formula(paste(form0[2], form0[1], form0[3]))
+    # # form0 <- formula(lm1)
+    # form_lss <- list(update(form0, rain_level ~ .),
+    #                  update(form0, sigma ~ .))
+    #
+    # # form_lss <- list(rain_level ~ 1,
+    # #                  sigma ~ 1)
+    # lss <- bamlss(form_lss, family = "gamma", data = data)
+    # data[c("mu", "sigma")] <- predict(lss, data, type = "parameter")
   }
 
   # Compute the spi and additional variables.
@@ -107,12 +114,14 @@ spi_week <- function(rain, tscale = 1, period = 365 / 7, package = "gamlss", plo
 #' @title Identify floods and droughts based on SPI.
 #'
 #' @description
-#' \code{find_flood_drought} description.
+#' \code{find_flood_drought} identifies floods and droughts for a vector series of
+#' standardized precipitation values.
 #'
 #' @details
-#' details.
+#' Floods (droughts) are identified by a subset of negative values where at least one value
+#' exceeds -1 (1).
 #'
-#' @param par.
+#' @param spi A vector series of standardized precipitation values.
 #'
 #' @return return.
 #'

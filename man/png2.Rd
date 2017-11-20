@@ -7,16 +7,19 @@
 png2(filename = "Rplot\%03d.png", width = 1000, ratio = 1, ...)
 }
 \arguments{
-\item{par.}{}
+\item{filename}{File name for the graph.}
+
+\item{width}{Width of the png device.}
+
+\item{ratio}{Ratio between height and width (height/width).}
+
+\item{...}{Additional parameters to be passed to \code{png}.}
 }
 \value{
 return.
 }
 \description{
 \code{png2} is a customized version of \code{png}.
-}
-\details{
-details.
 }
 \author{
 Erick A. Chacon-Montalvan

@@ -15,7 +15,14 @@ mgp(s1, s2, cov.model = NULL, variance = NULL, nugget = NULL,
 \item{cov.model}{A character or function indicating the covariance function that
 Should be used to compute the variance-covariance matrix}
 
-\item{cov.params}{A list of the parameters required by the \code{cov.model} function.}
+\item{variance}{A qxq matrix of non-spatial covariance.}
+
+\item{nugget}{A qxq diagonal matrix of non-spatial noise.}
+
+\item{phi}{A q-length vector of decay parameters.}
+
+\item{kappa}{A q-length vector of kappa parameters if Matern spatial correlation
+function is used.}
 }
 \value{
 A vector of the realization of the Gaussian Process

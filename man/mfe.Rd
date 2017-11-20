@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulation.R
 \name{mfe}
 \alias{mfe}
-\title{Multivariate Fixed Effect .}
+\title{Multivariate Fixed Effect}
 \usage{
 mfe(x, beta)
 }
