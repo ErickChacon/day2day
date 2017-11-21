@@ -1,11 +1,11 @@
 Package: day2day
 Type: Package
-Title: Functions for day-to-day data analysis
+Title: Functions for Day-to-Day Data Analysis
 Version: 0.1
-Date: 2017-04-25
+Date: 2017-11-21
 Authors@R: person("Erick A.", "Chacon-Montalvan", email = "eral.th07@gmail.com",
     role = c("aut", "cre"))
-Maintainer: Erick A. Chacon Montalvan <eral.th07@gmail.com>
+Maintainer: Erick A. Chacon-Montalvan <eral.th07@gmail.com>
 Description: Functions that can be useful in the day-to-day data analysis. It
     comprehends functions to find paths for projects, make summaries of databases
     inside folder and so on.
