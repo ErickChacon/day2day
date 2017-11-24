@@ -13,6 +13,12 @@
 #'
 #' @author Erick A. Chacon-Montalvan
 #'
+#' @examples
+#'
+#' x <- rnorm(1000)
+#' ecdf_x <- ecdf_val(x)
+#' plot(x, ecdf_x)
+#'
 #' @importFrom stats ecdf
 #'
 #' @export

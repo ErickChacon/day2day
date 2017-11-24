@@ -16,6 +16,13 @@
 #'
 #' @author Erick A. Chacon-Montalvan
 #'
+#' @examples
+#'
+#' x <- 1:10
+#' runmean(x, width = 1)
+#' runmean(x, width = 2)
+#' runmean(x, width = 3)
+#'
 #' @importFrom Rcpp evalCpp
 #'
 #' @useDynLib day2day

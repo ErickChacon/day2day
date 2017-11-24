@@ -10,9 +10,15 @@
 #'
 #' @author Erick A. Chacon-Montalvan
 #'
+#' @examples
+#'
+#' long_text <- paste0(rep("this is a very long text", 10), collapse = " ")
+#' cat(long_text)
+#' cat(wrapit(text = long_text, 26))
+#'
 #' @export
 wrapit <- function(text, width = 20) {
-  wtext <- paste(strwrap(text, width = width), collapse=" \n ")
+  wtext <- paste(strwrap(text, width = width), collapse =" \n ")
   return(wtext)
 }
 
@@ -72,6 +78,12 @@ wrapit <- function(text, width = 20) {
 #' or similar ones.
 #'
 #' @author Erick A. Chacon-Montalvan
+#'
+#' @examples
+#'
+#' x <- rnorm(100)
+#' ggscale_seq(0.5)(x)
+#' ggscale_seq(1)(x)
 #'
 #' @export
 ggscale_seq <- function (by = 1) {
@@ -135,6 +147,17 @@ ggscale_seq <- function (by = 1) {
 #'
 #' @importFrom ggplot2 theme element_text rel
 #'
+#' @examples
+#'
+#' # Create a dataset
+#' library(ggplot2)
+#' data <- data.frame(x = rnorm(100))
+#'
+#' # Plot variable x with custom theme
+#' ggplot(data, aes(x)) +
+#'   geom_histogram() +
+#'   ggtheme()
+#'
 #' @export
 ggtheme <- function (color = "#990000") {
   out <- ggplot2::theme(
@@ -185,6 +208,33 @@ StatEvents <- ggplot2::ggproto("StatEvents", ggplot2::Stat,
 #' @param ... Additional arguments passed to \code{layer}.
 #'
 #' @author Erick A. Chacon-Montalvan
+#'
+#' @examples
+#'
+#' # Obtain a zero-mean time series
+#' library(ggplot2)
+#' economics <- transform(economics,
+#'   unemploy_zero = 2 * (unemploy - mean(unemploy)) / sd(unemploy))
+#'
+#' # Plot time series with appropiate shade for negative and positive values
+#' ggplot(economics, aes(date, unemploy_zero)) +
+#'   geom_line() +
+#'   geom_point(color = 2, alpha = 0.3) +
+#'   stat_events(alpha = 0.3)
+#'
+#' # Plot time series with appropiate shade for a given threshold
+#' ggplot(economics, aes(date, unemploy_zero)) +
+#'   geom_line() +
+#'   geom_point(color = 2, alpha = 0.3) +
+#'   stat_events(threshold = 0.5, alpha = 0.3)
+#'
+#' # Plot time series with appropiate shade for a given threshold
+#' ggplot(economics, aes(date, unemploy_zero)) +
+#'   geom_line() +
+#'   stat_events(aes(event = I(1 * (unemploy_zero > 1)), fill = "positive peak"),
+#'               threshold = 1, alpha = 0.3) +
+#'   stat_events(aes(event = I(1 * (unemploy_zero < -1)), fill = "negative peak"),
+#'               threshold = -1, alpha = 0.3)
 #'
 #' @importFrom ggplot2 layer
 #'

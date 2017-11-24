@@ -20,6 +20,14 @@ A moving average of the time series.
 \details{
 details.
 }
+\examples{
+
+x <- 1:10
+runmean(x, width = 1)
+runmean(x, width = 2)
+runmean(x, width = 3)
+
+}
 \author{
 Erick A. Chacon-Montalvan
 }

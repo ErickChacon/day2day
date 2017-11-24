@@ -20,6 +20,13 @@ break for a continuous scale axis.
 \details{
 details.
 }
+\examples{
+
+x <- rnorm(100)
+ggscale_seq(0.5)(x)
+ggscale_seq(1)(x)
+
+}
 \author{
 Erick A. Chacon-Montalvan
 }

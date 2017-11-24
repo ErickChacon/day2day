@@ -18,6 +18,13 @@ vector of quantiles.
 \details{
 details.
 }
+\examples{
+
+x <- rnorm(1000)
+ecdf_x <- ecdf_val(x)
+plot(x, ecdf_x)
+
+}
 \author{
 Erick A. Chacon-Montalvan
 }

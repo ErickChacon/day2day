@@ -15,6 +15,19 @@
 #'
 #' @author Erick Albacharro Chacon-Montalvan
 #'
+#' @examples
+#'
+#' # Create a path with datasets to apply our function
+#' data_path <- tempdir()
+#' save(iris, file = file.path(data_path, "iris.RData"))
+#' save(airquality, file = file.path(data_path, "airquality.RData"))
+#'
+#' # Obtain the summary of all datasets included in an specific path
+#' db_summarize(data_path, filename = file.path(data_path, "summary.txt"))
+#'
+#' # Print the summary
+#' readLines(file.path(data_path, "summary.txt"))
+#'
 #' @export
 db_summarize <- function(path_data, filename = "summary-databases.txt"){
   databases <- list.files(path_data,".RData$")
@@ -23,7 +36,7 @@ db_summarize <- function(path_data, filename = "summary-databases.txt"){
   write("------------------------------------------------", filename, append = T)
   for(i in 1:length(databases)){
     write(paste0("\n", i, ") RData file: ", databases[i]), filename, append = T)
-    obj_names <- load(paste0(path_data, databases[i]))
+    obj_names <- load(file.path(path_data, databases[i]))
     for(j in 1:length(obj_names)){
       var_names <- eval(parse(text = paste("names(", obj_names[j],")")))
       eval(parse(text = paste0("rm(list = '", obj_names[j], "')")))
@@ -33,4 +46,6 @@ db_summarize <- function(path_data, filename = "summary-databases.txt"){
       }
     }
   }
+  # write("\n", filename, append = T)
 }
+

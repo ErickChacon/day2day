@@ -160,16 +160,32 @@ gp <- function (s1, s2, cov.model = NULL, cov.params = NULL) {
 #' @author Erick A. Chacon-Montalvan
 #'
 #' @examples
+#'
 #' # Generate coordinates
-#' N <- 1000
+#' N <- 100
 #' s1 <- 2 * runif(N)
 #' s2 <- 2 * runif(N)
-#' # Simulate and plot the realization of a Gaussian process
-#' y <- gp(s1, s2, "exp_cov", list(phi = 0.05, sigma2 = 1))
-#' plot(s1, s2, cex = y)
-#' # Plot with ggplot
-#' # ggplot(data.frame(s1, s2, y), aes(s1, s2, col = y)) +
-#' #  geom_point(size = 3)
+#'
+#' # Covariance parameters
+#' q <- 2
+#' var <- sqrt(diag(c(4, 4)))
+#' A <- matrix(c(1, - 0.8, 0, 0.6), nrow = 2)
+#' variance <- var %*% tcrossprod(A) %*% var
+#' nugget <- diag(0, q)
+#' phi <- rep(1 / 0.08, q)
+#'
+#' # Generate the multivariate Gaussian process
+#' y <- mgp(s1, s2, "exponential", variance, nugget, phi)
+#' y1 <- y[1:N]
+#' y2 <- y[(N + 1):(2 * N)]
+#'
+#' # Check correlation
+#' cor(y1, y2)
+#' plot(y1, y2)
+#'
+#' # Visualize the spatial
+#' plot(s1, s2, cex = y1, col = 2)
+#' points(s1, s2, cex = y2, col = 3)
 #'
 #' @importFrom spBayes mkSpCov
 #'
@@ -213,6 +229,7 @@ mgp <- function (s1, s2, cov.model = NULL, variance = NULL, nugget = NULL, phi =
 #' @author Erick A. Chacon-Montalvan
 #'
 #' @examples
+#'
 #' mfe(x = rnorm(10), beta = c(0.1, 0, 1))
 #'
 #' @export
@@ -250,11 +267,37 @@ mfe <- function (x, beta) {
 #' @author Erick Albacharro Chacon-Montalvan
 #'
 #' @examples
-#'f <- list(
-#'  mean ~ 5 + 0.5 * x1 + 0.1 * x2 + 0.7 * id1,
-#'  sd ~ exp(x1)
-#')
-#'data <- sim_model(f, rnorm, 100)
+#'
+#' # Covariance parameters
+#' n <- 100
+#' q <- 2
+#' var <- sqrt(diag(c(4, 4)))
+#' A <- matrix(c(1, - 0.8, 0, 0.6), nrow = 2)
+#' variance <- var %*% tcrossprod(A) %*% var
+#' nugget <- diag(0, q)
+#' phi <- rep(1 / 0.08, q)
+#'
+#' # Structure of the model
+#' formula <- list(
+#'   mean ~ psych::logistic(
+#'     mgp(s1, s2, "exponential", get("variance"), get("nugget"), get("phi"))),
+#'   sd ~ 1
+#' )
+#'
+#' # Simulate data based on formula
+#' library(tidyr)
+#' library(dplyr)
+#' data <- msim_model(formula, generator = rnorm, n = n, extent = 2, seed = 1)
+#' data_long <- gather(data, yname, yval, matches("^y[0-9]+"))
+#'
+#' # Plot the observed realization
+#' library(ggplot2)
+#' spgg <- ggplot(data_long, aes(s1, s2, size = yval, col = yval)) +
+#'   geom_point() +
+#'   scale_colour_gradientn(colours = terrain.colors(10)) +
+#'   facet_wrap(~ yname)
+#' print(spgg)
+#'
 #'
 #' @importFrom purrr map map_chr reduce
 #' @importFrom dplyr bind_cols mutate select left_join

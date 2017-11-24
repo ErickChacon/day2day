@@ -22,6 +22,12 @@ quantitative variables.
 Given a \code{data.frame}, it will compute a matrix of association between all the
 variables.
 }
+\examples{
+library(lattice)
+assoc_mat <- assoc(iris)
+levelplot(assoc_mat)
+
+}
 \author{
 Erick Albacharro Chacon-Montalvan
 }

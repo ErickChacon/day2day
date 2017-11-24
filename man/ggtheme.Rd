@@ -18,6 +18,18 @@ theme for being used with ggplot objects.
 \details{
 details.
 }
+\examples{
+
+# Create a dataset
+library(ggplot2)
+data <- data.frame(x = rnorm(100))
+
+# Plot variable x with custom theme
+ggplot(data, aes(x)) +
+  geom_histogram() +
+  ggtheme()
+
+}
 \author{
 Erick A. Chacon-Montalvan
 }

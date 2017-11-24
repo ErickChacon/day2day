@@ -23,6 +23,7 @@ A matrix of dimension n x q.
 details.
 }
 \examples{
+
 mfe(x = rnorm(10), beta = c(0.1, 0, 1))
 
 }

@@ -4,7 +4,7 @@
 \alias{units_tx}
 \title{Create labels with units.}
 \usage{
-units_tx(vec, unit = "weeks", singular = "week")
+units_tx(vec, unit = "weeks", singular = NULL)
 }
 \arguments{
 \item{vec}{Vector of values.}
@@ -21,6 +21,13 @@ return.
 }
 \details{
 details.
+}
+\examples{
+
+x <- sample(1:3, size = 10, replace = TRUE)
+units_tx(x)
+units_tx(x, unit = "grams", singular = "grams")
+
 }
 \author{
 Erick A. Chacon-Montalvan

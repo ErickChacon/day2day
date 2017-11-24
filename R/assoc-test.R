@@ -87,6 +87,11 @@ gen_assoc <- function(x, y) {
 #'
 #' @author Erick Albacharro Chacon-Montalvan
 #'
+#' @examples
+#' library(lattice)
+#' assoc_mat <- assoc(iris)
+#' levelplot(assoc_mat)
+#'
 #' @importFrom vcd assocstats
 #' @importFrom stats lm
 #' @importFrom lme4 lmer

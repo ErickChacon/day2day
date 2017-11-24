@@ -4,10 +4,12 @@
 \alias{get_path}
 \title{Get the Folder Path Containing File}
 \usage{
-get_path(file = "repos.ecm")
+get_path(file = "repos.ecm", where = "~")
 }
 \arguments{
 \item{file}{File name to look for.}
+
+\item{where}{Folder name where to look for.}
 }
 \value{
 A character indicating the folder path.
@@ -18,6 +20,17 @@ A character indicating the folder path.
 \details{
 When the file name is not specified, \code{get_path} will look for the
 file "doctoral-research.ecm".
+}
+\examples{
+
+# Create a file to look for
+data_path <- file.path(tempdir(), "data")
+dir.create(data_path)
+write("this is a test", file.path(data_path, "data.RData"))
+
+# Find the path of the file
+get_path(file = "data.RData", where = tempdir())
+
 }
 \author{
 Erick Albacharro Chacon-Montalvan

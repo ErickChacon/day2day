@@ -4,16 +4,24 @@
 \alias{ls_size}
 \title{Obtain list of objects by memory usage.}
 \usage{
-ls_size(units = "MB")
+ls_size(units = "MB", ...)
 }
 \arguments{
-\item{units}{unit to be printed as with \code{object.size} function.}
+\item{units}{Unit to be printed as with \code{object.size} function.}
+
+\item{...}{Additional parameters passed to \code{ls}.}
 }
 \value{
-list of objects sorted by memory usage.
+vector of objects size sorted by memory usage.
 }
 \description{
 \code{ls_size} obtain the list of objects with their memory usage.
+}
+\examples{
+
+x <- c("1", "b")
+ls_size(units = "KB")
+
 }
 \author{
 Erick A. Chacon-Montalvan

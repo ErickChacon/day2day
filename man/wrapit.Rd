@@ -17,6 +17,13 @@ wrapped text
 \description{
 \code{wrapit} wrap long texts to be used with ggplot package.
 }
+\examples{
+
+long_text <- paste0(rep("this is a very long text", 10), collapse = " ")
+cat(long_text)
+cat(wrapit(text = long_text, 26))
+
+}
 \author{
 Erick A. Chacon-Montalvan
 }

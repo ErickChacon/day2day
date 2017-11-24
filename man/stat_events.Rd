@@ -29,6 +29,34 @@ stat_events(mapping = NULL, data = NULL, geom = "ribbon",
 \code{stat_events} computes a data frame to adequatly draw areas
 corresponding to extreme events in a time series.
 }
+\examples{
+
+# Obtain a zero-mean time series
+library(ggplot2)
+economics <- transform(economics,
+  unemploy_zero = 2 * (unemploy - mean(unemploy)) / sd(unemploy))
+
+# Plot time series with appropiate shade for negative and positive values
+ggplot(economics, aes(date, unemploy_zero)) +
+  geom_line() +
+  geom_point(color = 2, alpha = 0.3) +
+  stat_events(alpha = 0.3)
+
+# Plot time series with appropiate shade for a given threshold
+ggplot(economics, aes(date, unemploy_zero)) +
+  geom_line() +
+  geom_point(color = 2, alpha = 0.3) +
+  stat_events(threshold = 0.5, alpha = 0.3)
+
+# Plot time series with appropiate shade for a given threshold
+ggplot(economics, aes(date, unemploy_zero)) +
+  geom_line() +
+  stat_events(aes(event = I(1 * (unemploy_zero > 1)), fill = "positive peak"),
+              threshold = 1, alpha = 0.3) +
+  stat_events(aes(event = I(1 * (unemploy_zero < -1)), fill = "negative peak"),
+              threshold = -1, alpha = 0.3)
+
+}
 \author{
 Erick A. Chacon-Montalvan
 }

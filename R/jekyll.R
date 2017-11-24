@@ -19,17 +19,17 @@
 #' @author Erick A. Chacon-Montalvan
 #'
 #' @export
-post_jekyll <- function (filename,
-  path_jekyll = "/home/chaconmo/Documents/Repositories/erickchacon/_posts",
-  fig_jekyll = "{{site.baseurl}}/assets/images/") {
-
-  content <- readLines(filename)
-  new_content <- gsub("(!\\[.+\\]\\()(.+\\))",
-                      paste0("\\1", fig_jekyll, "\\2"),
-                      content)
-  filename <- file.path(path_jekyll, filename)
-  write(new_content, file = filename)
-  # cat(paste(filename, "successfully exported to jekyll.\n"))
-}
+# post_jekyll <- function (filename,
+#   path_jekyll = "/home/chaconmo/Documents/Repositories/erickchacon/_posts",
+#   fig_jekyll = "{{site.baseurl}}/assets/images/") {
+#
+#   content <- readLines(filename)
+#   new_content <- gsub("(!\\[.+\\]\\()(.+\\))",
+#                       paste0("\\1", fig_jekyll, "\\2"),
+#                       content)
+#   filename <- file.path(path_jekyll, filename)
+#   write(new_content, file = filename)
+#   # cat(paste(filename, "successfully exported to jekyll.\n"))
+# }
 
 

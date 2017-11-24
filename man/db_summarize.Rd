@@ -22,6 +22,20 @@ folder, into a file.
 When the filename is not specified, \code{db_summary} will create the file
 "summary-databases.txt".
 }
+\examples{
+
+# Create a path with datasets to apply our function
+data_path <- tempdir()
+save(iris, file = file.path(data_path, "iris.RData"))
+save(airquality, file = file.path(data_path, "airquality.RData"))
+
+# Obtain the summary of all datasets included in an specific path
+db_summarize(data_path, filename = file.path(data_path, "summary.txt"))
+
+# Print the summary
+readLines(file.path(data_path, "summary.txt"))
+
+}
 \author{
 Erick Albacharro Chacon-Montalvan
 }
