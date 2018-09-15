@@ -50,6 +50,7 @@ get_path <- function(file = "repos.ecm", where = "~") {
 #'
 #' @examples
 #'
+#' \dontrun{
 #' # Set working directory to tempdir
 #' project_path <- file.path(tempdir(), "my-project")
 #' dir.create(project_path)
@@ -60,6 +61,7 @@ get_path <- function(file = "repos.ecm", where = "~") {
 #' # Find the path of the file
 #' getwd()
 #' getwd_short(foldername = "my-project")
+#' }
 #'
 #' @export
 getwd_short <- function(foldername) {

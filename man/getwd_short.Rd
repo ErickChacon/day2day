@@ -22,6 +22,7 @@ it given a folder name inside this path.
 }
 \examples{
 
+\dontrun{
 # Set working directory to tempdir
 project_path <- file.path(tempdir(), "my-project")
 dir.create(project_path)
@@ -32,6 +33,7 @@ setwd(code_path)
 # Find the path of the file
 getwd()
 getwd_short(foldername = "my-project")
+}
 
 }
 \author{
